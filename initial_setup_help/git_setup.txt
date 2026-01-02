@@ -1,6 +1,18 @@
 git init
 git add .
 git commit -m "Initial commit: uv environment setup"
+git remote add origin https://github.com/saiyarra7/data-engineering-repo-2026.git
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
 git push -u origin main
+
+# Create 'main' branch and switch to it immediately
+git checkout -b main
+
+#git lfs for handling data size in github
+git lfs install
+git lfs version 
+
+git lfs track "*.csv"
+git lfs track "*.parquet"
+git lfs track "*.zip"
+git lfs track "*.pkl"  # Machine learning models
