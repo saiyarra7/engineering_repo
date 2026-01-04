@@ -21,3 +21,16 @@ where (customer_id, order_date) in
 (select customer_id, min(order_date)
 from delivery 
 group by customer_id );
+
+--550. Game Play Analysis IV
+--https://leetcode.com/problems/game-play-analysis-iv/description/?envType=study-plan-v2&envId=top-sql-50
+-- Non optimized way
+select round(count(a.player_id)*1.00/(select count(distinct player_id) from activity),2) as fraction
+from
+(select player_id,min(event_date) first_login
+from activity
+group by player_id) first_login 
+left join activity a on a.player_id = first_login.player_id
+and a.event_date = first_login.first_login + interval '1 day';
+
+-- Optimized using window functions
