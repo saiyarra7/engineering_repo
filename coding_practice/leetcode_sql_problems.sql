@@ -29,6 +29,17 @@ where (customer_id, order_date) in
 from delivery 
 group by customer_id );
 
+
+--511. Game Play Analysis I
+--https://leetcode.com/problems/game-play-analysis-i/description/
+select player_id, min(event_date) first_login
+from activity
+group by player_id;
+
+
+
+
+
 --550. Game Play Analysis IV
 --https://leetcode.com/problems/game-play-analysis-iv/description/?envType=study-plan-v2&envId=top-sql-50
 -- Non optimized way
@@ -73,3 +84,10 @@ SELECT
     ) AS fraction
 FROM temp
 WHERE login_rank = 1;
+
+
+--2356. Number of Unique Subjects Taught by Each Teacher
+-- https://leetcode.com/problems/number-of-unique-subjects-taught-by-each-teacher/description/?envType=study-plan-v2&envId=top-sql-50
+select teacher_id, count(distinct subject_id) cnt
+from teacher 
+group by teacher_id;
