@@ -91,3 +91,11 @@ WHERE login_rank = 1;
 select teacher_id, count(distinct subject_id) cnt
 from teacher 
 group by teacher_id;
+
+--619. Biggest Single Number
+--https://leetcode.com/problems/biggest-single-number/description/?envType=study-plan-v2&envId=top-sql-50
+-- first thoughts
+select max(num) num from 
+(select num
+from mynumbers
+group by num having count(num)=1);
