@@ -99,3 +99,14 @@ select max(num) num from
 (select num
 from mynumbers
 group by num having count(num)=1);
+
+
+-- 1731. The Number of Employees Which Report to Each Employee
+-- https://leetcode.com/problems/the-number-of-employees-which-report-to-each-employee/?envType=study-plan-v2&envId=top-sql-50
+with manager_data as (select reports_to employee_id, count(*) reports_count, round(avg(age::decimal),0) average_age
+from employees
+where reports_to is not null 
+group by reports_to)
+select manager_data.employee_id, e.name, manager_data.reports_count, manager_data.average_age 
+from manager_data inner join employees e on e.employee_id = manager_data.employee_id
+order by manager_data.employee_id;
