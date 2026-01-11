@@ -141,3 +141,10 @@ where to_char(order_date, 'YYYY-MM') = '2020-02'
 group by product_id) as uc
 on uc.product_id=p.product_id
 where uc.unit>=100;
+
+--optimized
+select p.product_name, sum(o.unit) unit
+from products p inner join orders o
+on o.product_id=p.product_id
+where order_date>='2020-02-01' and order_date<'2020-03-01'
+group by 1 having sum(o.unit)>= 100;
