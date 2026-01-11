@@ -110,3 +110,34 @@ group by reports_to)
 select manager_data.employee_id, e.name, manager_data.reports_count, manager_data.average_age 
 from manager_data inner join employees e on e.employee_id = manager_data.employee_id
 order by manager_data.employee_id;
+
+
+--1978. Employees Whose Manager Left the Company
+-- https://leetcode.com/problems/employees-whose-manager-left-the-company/?envType=study-plan-v2&envId=top-sql-50
+--initial thoughts
+select employee_id 
+from employees 
+where salary<30000
+and manager_id not in (select employee_id from employees where manager_id is not null)
+order by employee_id asc;
+
+-- optimized
+select e.employee_id
+from employees e 
+left join employees m on m.employee_id=e.manager_id
+where e.salary<30000
+and e.manager_id is not null
+and m.employee_id is null
+order by 1 asc;
+
+--https://leetcode.com/problems/list-the-products-ordered-in-a-period/submissions/?envType=study-plan-v2&envId=top-sql-50
+--1327. List the Products Ordered in a Period
+-- Initial thoughts
+select p.product_name, uc.unit
+from products p
+inner join (select product_id, sum(unit) as unit
+from orders 
+where to_char(order_date, 'YYYY-MM') = '2020-02'
+group by product_id) as uc
+on uc.product_id=p.product_id
+where uc.unit>=100;
