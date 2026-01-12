@@ -148,3 +148,10 @@ from products p inner join orders o
 on o.product_id=p.product_id
 where order_date>='2020-02-01' and order_date<'2020-03-01'
 group by 1 having sum(o.unit)>= 100;
+
+--https://leetcode.com/problems/user-activity-for-the-past-30-days-i/description/?envType=study-plan-v2&envId=top-sql-50
+--1141. User Activity for the Past 30 Days I
+select activity_date as day, count(distinct user_id) active_users
+from activity
+where activity_date > ('2019-07-27'::date - interval '30 day') and activity_date<= '2019-07-27'
+group by activity_date;
