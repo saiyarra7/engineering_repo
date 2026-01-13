@@ -157,4 +157,12 @@ where activity_date > ('2019-07-27'::date - interval '30 day') and activity_date
 group by activity_date;
 
 
-
+--https://leetcode.com/problems/product-sales-analysis-iii/description/?envType=study-plan-v2&envId=top-sql-50
+--1070. Product Sales Analysis III
+with fy as 
+(select product_id, min(year) as first_year
+from sales
+group by product_id)
+select fy.product_id, fy.first_year, quantity, price
+from sales s inner join fy on s.product_id = fy.product_id 
+and s.year=fy.first_year;
