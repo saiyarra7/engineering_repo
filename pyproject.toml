@@ -6,13 +6,19 @@ readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "cryptography>=46.0.3",
+    "hvplot>=0.12.2",
+    "jupyter>=1.1.1",
+    "lab>=8.6",
     "marimo>=0.19.1",
+    "matplotlib>=3.10.8",
     "numpy>=2.4.0",
     "pandas>=2.3.3",
+    "plotly>=6.5.1",
     "polars>=1.36.1",
     "psycopg[binary]>=3.3.2",
     "pyarrow>=22.0.0",
     "pypdf>=6.6.0",
     "pyzmq>=27.1.0",
     "reportlab>=4.4.7",
+    "seaborn>=0.13.2",
 ]

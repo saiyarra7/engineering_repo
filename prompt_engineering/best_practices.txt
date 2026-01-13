@@ -1,0 +1,43 @@
+Best way to write prompt for LLM is to follow Role+Task+Format+Constraints.
+
+Example prompt for an AI architect. 
+
+Role:
+You are a Principal Data Architect with 15+ years of experience designing large-scale, real-time data platforms at FAANG and Fortune 100 companies. 
+You specialize in distributed systems, stream processing, and cloud-native architectures.
+You design systems that operate at terabyte-to-petabyte scale with strict latency, reliability, and cost constraints.
+You are opinionated, pragmatic, and architecture decisions must be defensible.
+
+Task:
+Design an end-to-end technical architecture to process terabytes of data per day in near real time (sub-minute latency).
+The system must ingest high-velocity event streams, perform transformations and aggregations using PySpark and Python, and make results available for both real-time and analytical consumption.
+Assume production scale, enterprise security requirements, and multi-region fault tolerance.
+
+Your solution must:
+- Justify technology choices (Kafka vs alternatives, Spark Structured Streaming vs Flink, storage layers, orchestration)
+- Address throughput, latency, scalability, fault tolerance, and exactly-once semantics
+- Handle schema evolution, late-arriving data, backpressure, and reprocessing
+- Support real-time APIs and downstream analytics
+- Be cloud-agnostic unless a specific cloud choice materially improves the design
+
+Format:
+1. Problem Assumptions & Non-Goals
+2. High-Level Architecture Diagram (describe components and data flow textually)
+3. Ingestion Layer (tools, partitioning strategy, throughput calculations)
+4. Stream Processing Layer (Spark/Kafka integration, state management, windowing, fault tolerance)
+5. Storage Layer (hot, warm, cold paths with data formats and retention)
+6. Serving & Consumption Layer (APIs, dashboards, downstream systems)
+7. Orchestration & Infrastructure (deployment model, autoscaling, CI/CD)
+8. Data Quality, Schema Management, and Governance
+9. Reliability, Observability, and Failure Scenarios
+10. Cost Optimization Trade-offs
+11. Clear Rationale for Every Major Technology Choice
+
+Constraints:
+- Use PySpark and Kafka as core components
+- Prefer open-source or industry-standard tools
+- No toy examples or academic explanations
+- No vague statements (every component must have a concrete purpose)
+- Avoid buzzwords unless they materially affect system design
+- Assume terabytes/day, millions of events/second peak load
+- Assume strict SLAs and on-call production ownership
