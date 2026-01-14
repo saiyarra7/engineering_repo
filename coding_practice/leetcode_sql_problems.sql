@@ -166,3 +166,13 @@ group by product_id)
 select fy.product_id, fy.first_year, quantity, price
 from sales s inner join fy on s.product_id = fy.product_id 
 and s.year=fy.first_year;
+
+
+--https://leetcode.com/problems/classes-with-at-least-5-students/description/?envType=study-plan-v2&envId=top-sql-50
+--596. Classes With at Least 5 Students
+select class 
+from
+(select class, count(student) no_of_students
+from courses
+group by class) a
+where no_of_students>=5;
