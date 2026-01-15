@@ -212,3 +212,17 @@ group by customer_id
 having count(distinct product_key) = (select count(product_key) from product);
 
 
+--https://leetcode.com/problems/triangle-judgement/description/?envType=study-plan-v2&envId=top-sql-50
+--610. Triangle Judgement
+--initial thoughts, but looses on edge cases cause any side can be negative too
+select x,y,z, case when x+y>z and y+z>x and x+z>y then 'Yes' else 'No' end as triangle
+from triangle;
+
+--edge case 
+select x,y,z, 
+case when least(x,y,z)<=0 then 'No' 
+when x+y>z and y+z>x and x+z>y then 'Yes' 
+else 'No' end as triangle
+from triangle;
+
+
