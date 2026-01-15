@@ -198,3 +198,17 @@ group by customer_id)
 select cnt.customer_id 
 from cnt 
 where cnt.cnt = (select count(product_key) from product);
+--better, no need to even join the tables.
+with cnt as (select customer_id, count(distinct c.product_key) cnt
+from customer c
+group by customer_id)
+select cnt.customer_id 
+from cnt 
+where cnt.cnt = (select count(product_key) from product);
+-- KISS
+select customer_id
+from customer 
+group by customer_id 
+having count(distinct product_key) = (select count(product_key) from product);
+
+
