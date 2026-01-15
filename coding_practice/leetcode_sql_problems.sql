@@ -176,3 +176,15 @@ from
 from courses
 group by class) a
 where no_of_students>=5;
+
+--other way
+select class 
+from courses 
+group by class having count(student)>=5;
+
+--https://leetcode.com/problems/find-followers-count/description/?envType=study-plan-v2&envId=top-sql-50
+--1729. Find Followers Count
+select user_id, count(follower_id) as followers_count
+from followers
+group by user_id
+order by user_id asc;
