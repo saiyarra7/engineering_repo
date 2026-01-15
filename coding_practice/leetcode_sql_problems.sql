@@ -188,3 +188,13 @@ select user_id, count(follower_id) as followers_count
 from followers
 group by user_id
 order by user_id asc;
+
+--https://leetcode.com/problems/customers-who-bought-all-products/description/?envType=study-plan-v2&envId=top-sql-50
+--1045. Customers Who Bought All Products
+--first thoughts
+with cnt as (select customer_id, count(distinct c.product_key) cnt
+from customer c inner join product p on p.product_key = c.product_key
+group by customer_id)
+select cnt.customer_id 
+from cnt 
+where cnt.cnt = (select count(product_key) from product);
