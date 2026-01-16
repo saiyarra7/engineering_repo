@@ -226,3 +226,24 @@ else 'No' end as triangle
 from triangle;
 
 
+-- https://leetcode.com/problems/primary-department-for-each-employee/?envType=study-plan-v2&envId=top-sql-50
+-- 1789. Primary Department for Each Employee
+--first thoughts.
+select e.employee_id, e.department_id
+from employee e
+where e.primary_flag = 'Y'
+union all
+select employee_id, department_id
+from employee where employee_id in 
+(select employee_id
+from employee
+group by employee_id
+having count(department_id) = 1);
+
+--window function optimized approach
+with temp as 
+(select employee_id, department_id, primary_flag, count(*) over (partition by employee_id) cnt
+from employee)
+select employee_id, department_id
+from temp
+where primary_flag = 'Y' or cnt = 1;
