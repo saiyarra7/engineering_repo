@@ -247,3 +247,32 @@ from employee)
 select employee_id, department_id
 from temp
 where primary_flag = 'Y' or cnt = 1;
+
+
+-- https://leetcode.com/problems/consecutive-numbers/?envType=study-plan-v2&envId=top-sql-50
+-- 180. Consecutive Numbers
+-- Brute force logic
+with temp as (select a.id, a.num as num_1, b.num as num_2, c.num as num_3
+ from logs a
+left join logs b on a.id +1 = b.id
+left join  logs c on a.id +2 = c.id)
+select distinct ConsecutiveNums from (select case when num_1 = num_2 and num_1=num_3 then num_1 else null end as ConsecutiveNums
+from temp)
+where ConsecutiveNums is not null;
+
+-- self join simple
+select distinct a.num as ConsecutiveNums
+ from logs a
+left join logs b on a.id +1 = b.id
+left join  logs c on a.id +2 = c.id
+where a.num=b.num and a.num=c.num;
+
+--Optimized
+with temp as 
+(select num as num1, lead(num,1) over (order by id) as num2,
+lead(num,2) over (order by id) as num3
+from logs)
+select distinct num1 as ConsecutiveNums
+from temp
+where num1=num2 and num1=num3;
+
