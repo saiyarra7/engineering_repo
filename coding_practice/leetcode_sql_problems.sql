@@ -276,3 +276,27 @@ select distinct num1 as ConsecutiveNums
 from temp
 where num1=num2 and num1=num3;
 
+--https://leetcode.com/problems/product-price-at-a-given-date/?envType=study-plan-v2&envId=top-sql-50
+--1164. Product Price at a Given Date
+-- Needed lookup.
+
+with latest_rank as (select product_id, new_price, rank() over (partition by product_id order by change_date desc) as latest_rank
+from products
+where change_date<= '2019-08-16')
+select product_id, new_price as price
+from latest_rank
+where latest_rank = 1
+union all
+select distinct product_id, 10 as price
+from products
+where product_id not in (select product_id from latest_rank);
+
+
+--optimized, postgres ranked order trick.
+with ranked_products as
+(select product_id, new_price, change_date, 
+row_number() over (partition by product_id order by change_date<='2019-08-16' desc, change_date desc) new_rank
+from products)
+select product_id, case when change_date<='2019-08-16' then new_price else 10 end as price
+from ranked_products
+where new_rank = 1;
