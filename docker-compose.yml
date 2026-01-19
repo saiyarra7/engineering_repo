@@ -1,0 +1,31 @@
+services:
+  spark-master:
+    image: apache/spark:3.5.3
+    container_name: spark-master
+    # Keep the container alive even if the process backgrounds
+    tty: true
+    stdin_open: true
+    environment:
+      - SPARK_MODE=master
+    ports:
+      - '8080:8080'
+      - '7077:7077'
+    volumes:
+      - .:/opt/spark/work-dir
+    # Force the master to start in the foreground
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
+
+  spark-worker:
+    image: apache/spark:3.5.3
+    container_name: spark-worker
+    tty: true
+    stdin_open: true
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+    volumes:
+      - .:/opt/spark/work-dir
+    depends_on:
+      - spark-master
+    # Force the worker to start in the foreground and point to master
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077

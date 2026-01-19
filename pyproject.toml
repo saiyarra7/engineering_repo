@@ -3,7 +3,7 @@ name = "data-engineering-repo-2026"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 dependencies = [
     "cryptography>=46.0.3",
     "hvplot>=0.12.2",
