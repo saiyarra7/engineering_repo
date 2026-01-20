@@ -2,12 +2,9 @@ from pyspark.sql import SparkSession
 import os
 
 def main():
-    # 1. Initialize SparkSession
-    # In Docker, we don't need to specify the Master URL in the code 
-    # if we submit via 'spark-submit', but it's good practice to set an App Name.
+    # Initialize SparkSession correctly
     spark = (SparkSession.builder 
              .appName("Docker_Spark_Verification") 
-             .get_all_variables() # Optional: check environment
              .getOrCreate())
 
     print("\n" + "="*50)
@@ -16,7 +13,7 @@ def main():
     print(f"Python Version: {os.sys.version}")
     print("="*50 + "\n")
 
-    # 2. Create a dummy dataset (Biotech Sample)
+    # Create dummy biotech data
     data = [
         ("Patient_A", "Control", 0.12),
         ("Patient_B", "Treated", 0.85),
@@ -27,14 +24,12 @@ def main():
 
     df = spark.createDataFrame(data, schema=columns)
 
-    # 3. Perform a basic transformation
-    print("Row Count Check:")
+    print("Sample Data Processing Results:")
     df.show()
 
-    # 4. Check if we can see the Workers
-    # This confirms the Master-Worker handshake is working
+    # Confirm connection to the cluster master
     sc = spark.sparkContext
-    print(f"Master URL being used: {sc.master}")
+    print(f"Connected to Master: {sc.master}")
     
     spark.stop()
 

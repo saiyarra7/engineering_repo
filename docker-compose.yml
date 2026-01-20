@@ -17,12 +17,14 @@ services:
 
   spark-worker:
     image: apache/spark:3.5.3
-    container_name: spark-worker
+    #container_name: spark-worker
     tty: true
     stdin_open: true
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_CORES=1    # Limit each worker to 1 CPU core
+      - SPARK_WORKER_MEMORY=1G  # Limit each worker to 1GB RAM
     volumes:
       - .:/opt/spark/work-dir
     depends_on:

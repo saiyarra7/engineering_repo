@@ -300,3 +300,11 @@ from products)
 select product_id, case when change_date<='2019-08-16' then new_price else 10 end as price
 from ranked_products
 where new_rank = 1;
+
+--1204. Last Person to Fit in the Bus
+with temp as (select *, sum(weight) over (order by turn asc) as turn_weight
+from queue )
+select person_name from temp
+where turn_weight<=1000
+order by turn_weight desc 
+limit 1;
