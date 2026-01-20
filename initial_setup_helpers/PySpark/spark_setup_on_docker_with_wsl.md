@@ -80,6 +80,8 @@ services:
 #In your project terminal (the root folder), run:
 
 docker-compose up -d #to start the container
+docker ps #to check if container is up and running.
+docker-compose stop # to hibernate the containers.
 docker-compose down #to stop the container
 
 #6. Run this to test if spark is running successfully.
