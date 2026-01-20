@@ -308,3 +308,8 @@ select person_name from temp
 where turn_weight<=1000
 order by turn_weight desc 
 limit 1;
+
+-- 1667. Fix Names in a Table
+select user_id, upper(substr(name, 1,1)) || lower(substr(name, 2)) as name
+from users
+order by user_id;
