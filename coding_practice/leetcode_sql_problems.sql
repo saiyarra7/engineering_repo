@@ -313,3 +313,8 @@ limit 1;
 select user_id, upper(substr(name, 1,1)) || lower(substr(name, 2)) as name
 from users
 order by user_id;
+
+-- 1527. Patients With a Condition
+select patient_id, patient_name, conditions 
+from patients
+where conditions like 'DIAB1%' or conditions like '% DIAB1%';
