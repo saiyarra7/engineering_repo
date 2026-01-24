@@ -318,3 +318,17 @@ order by user_id;
 select patient_id, patient_name, conditions 
 from patients
 where conditions like 'DIAB1%' or conditions like '% DIAB1%';
+
+-- 1907. Count Salary Categories
+--initial thoughts
+select 'Low Salary' as Category,count(*) as accounts_count
+from accounts
+where income<20000
+union all
+select 'Average Salary' as Category,count(*) as accounts_count
+from accounts
+where income>=20000 and income<=50000
+union all
+select 'High Salary',count(*) as accounts_count
+from accounts
+where income>50000;
