@@ -332,3 +332,33 @@ union all
 select 'High Salary',count(*) as accounts_count
 from accounts
 where income>50000;
+
+--using pivot similarity in postgres
+select v.category, v.accounts_count
+from 
+(select sum(case when income<20000 then 1 else 0 end) as low_salary,
+sum(case when income>=20000 and income<=50000 then 1 else 0 end) as average_salary,
+sum(case when income>50000 then 1 else 0 end) as high_salary
+from accounts) t 
+cross join lateral
+(values 
+('Low Salary',t.low_salary),
+('Average Salary',t.average_salary),
+('High Salary', t.high_salary))
+as V (category, accounts_count);
+
+-- 626. Exchange Seats
+select case 
+when id%2=1 and id = (select max(id) from seat) then id
+when id%2=1 then id+1
+when id%2=0 then id-1 end as id,
+student
+from seat
+order by id asc;
+
+select id, 
+case when id%2=1 
+then coalesce(lead(student) over (order by id asc),student) 
+else lag(student) over(order by id asc) end as student 
+from seat 
+order by id asc;
