@@ -419,3 +419,18 @@ union all
 from movies m inner join (select movie_id from highest_ratings where mv_rating = (select max(mv_rating) from highest_ratings)) as highest_ratings 
 on m.movie_id = highest_ratings.movie_id
 order by title asc limit 1);
+
+
+--1321. Restaurant Growth
+with daily_revn as (select visited_on,sum(amount) as daily_rev
+from customer 
+group by visited_on
+order by visited_on asc)
+select visited_on, amount, average_amount
+from
+(select visited_on, 
+sum(daily_rev) over (order by visited_on rows between 6 preceding and current row) as amount,
+round(avg(daily_rev) over (order by visited_on rows between 6 preceding and current row),2) as average_amount,
+row_number() over (order by visited_on asc) as day_rnk
+from daily_revn ) as rolling_sub
+where rolling_sub.day_rnk >=7;
