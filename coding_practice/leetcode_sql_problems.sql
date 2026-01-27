@@ -362,3 +362,60 @@ then coalesce(lead(student) over (order by id asc),student)
 else lag(student) over(order by id asc) end as student 
 from seat 
 order by id asc;
+
+-- 1341. Movie Rating
+--https://leetcode.com/problems/movie-rating/?envType=study-plan-v2&envId=top-sql-50
+
+--initial thoughts
+with no_of_ratings as (select user_id, count(*) no_of_movies
+from movierating
+group by user_id),
+highest_ratings as (select movie_id, avg(rating) mv_rating
+from movierating 
+where created_at>='2020-02-01' and created_at<'2020-03-01'
+group by movie_id)
+(select u.name as results
+from users u inner join (select no_of_ratings.user_id from no_of_ratings where no_of_movies= (select max(no_of_movies) from no_of_ratings)) as biggest_rater
+on biggest_rater.user_id= u.user_id
+order by u.name asc limit 1)
+union all
+(select title as results
+from movies m inner join highest_ratings 
+on m.movie_id = highest_ratings.movie_id
+order by mv_rating desc, title asc limit 1);
+
+--optimzed by removing the max instead we can just order by and limit;
+with no_of_ratings as (select user_id, count(*) no_of_movies
+from movierating
+group by user_id),
+highest_ratings as (select movie_id, avg(rating) mv_rating
+from movierating 
+where created_at>='2020-02-01' and created_at<'2020-03-01'
+group by movie_id)
+(select u.name as results
+from users u inner join no_of_ratings
+on u.user_id= no_of_ratings.user_id
+order by no_of_movies desc, u.name asc limit 1)
+union all
+(select title as results
+from movies m inner join highest_ratings 
+on m.movie_id = highest_ratings.movie_id
+order by mv_rating desc, title asc limit 1);
+
+--most optimized
+with no_of_ratings as (select user_id, count(*) no_of_movies
+from movierating
+group by user_id),
+highest_ratings as (select movie_id, avg(rating) mv_rating
+from movierating 
+where created_at>='2020-02-01' and created_at<'2020-03-01'
+group by movie_id)
+(select u.name as results
+from users u inner join (select no_of_ratings.user_id from no_of_ratings where no_of_movies= (select max(no_of_movies) from no_of_ratings)) as biggest_rater
+on biggest_rater.user_id= u.user_id
+order by u.name asc limit 1)
+union all
+(select title as results
+from movies m inner join (select movie_id from highest_ratings where mv_rating = (select max(mv_rating) from highest_ratings)) as highest_ratings 
+on m.movie_id = highest_ratings.movie_id
+order by title asc limit 1);
