@@ -44,11 +44,11 @@ if __name__ == "__main__":
     downloads_dir = Path(os.environ["USERPROFILE"]) / "Downloads"
     
     # DEFINE YOUR FILENAMES HERE
-    filename = "sample_input_file.pdf" 
-    target_text = "for screening purposes only"
+    filename = "sample-in.pdf" 
+    target_text = "For interview screening purposes only"
     
     input_pdf = downloads_dir / filename
-    output_pdf = downloads_dir / f"sample_output_file_with_watermark.pdf"
+    output_pdf = downloads_dir / f"sample out.pdf"
 
     if input_pdf.exists():
         apply_watermark(str(input_pdf), str(output_pdf), target_text)
