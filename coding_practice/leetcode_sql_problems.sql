@@ -434,3 +434,15 @@ round(avg(daily_rev) over (order by visited_on rows between 6 preceding and curr
 row_number() over (order by visited_on asc) as day_rnk
 from daily_revn ) as rolling_sub
 where rolling_sub.day_rnk >=7;
+
+
+---- 602. Friend Requests II: Who Has the Most Friends
+with all_ids as (select requester_id as id
+from RequestAccepted 
+union all
+select accepter_id
+from RequestAccepted as id)
+select id, count(id) as num
+from all_ids
+group by id
+order by num desc limit 1;
