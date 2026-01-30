@@ -446,3 +446,5 @@ select id, count(id) as num
 from all_ids
 group by id
 order by num desc limit 1;
+
+--585. Investments in 2016
