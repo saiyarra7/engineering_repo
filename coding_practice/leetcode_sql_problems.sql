@@ -457,3 +457,10 @@ group by tiv_2015 having count(tiv_2015)>1)
 and (lat,lon) in
 (select lat,lon
 from insurance group by lat,lon having count(*)=1);
+
+-- 176. Second Highest Salary
+select max(salary) SecondHighestSalary
+from 
+(select dense_rank() over (order by salary desc) as salary_rnk, salary
+from employee)
+where salary_rnk=2;
