@@ -464,3 +464,12 @@ from
 (select dense_rank() over (order by salary desc) as salary_rnk, salary
 from employee)
 where salary_rnk=2;
+
+--196. Delete Duplicate Emails
+delete from person where 
+id not in
+(select min(id) id
+from person 
+group by email);
+
+
