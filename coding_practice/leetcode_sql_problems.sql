@@ -482,3 +482,9 @@ order by sell_date;
 --1571 find-users-with-valid-e-mails
 select * from users 
 where mail ~ '^[a-zA-Z][a-zA-Z0-9._-]*@leetcode\.com$';
+
+--185 department-top-three-salaries
+select department, employee, salary from 
+(select d.name as department,e.name employee, e.salary salary, dense_rank() over (partition by e.departmentId order by e.salary desc) rn
+from employee e inner join department d on d.id=e.departmentid)
+where rn<=3;
