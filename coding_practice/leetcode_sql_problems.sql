@@ -472,4 +472,9 @@ id not in
 from person 
 group by email);
 
-
+--1484 group-sold-products-by-the-date
+select sell_date, count(distinct product) num_sold,
+string_agg(distinct product, ',' order by product asc) as products
+from activities 
+group by sell_date
+order by sell_date;
