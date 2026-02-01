@@ -478,3 +478,7 @@ string_agg(distinct product, ',' order by product asc) as products
 from activities 
 group by sell_date
 order by sell_date;
+
+--1571 find-users-with-valid-e-mails
+select * from users 
+where mail ~ '^[a-zA-Z][a-zA-Z0-9._-]*@leetcode\.com$';
