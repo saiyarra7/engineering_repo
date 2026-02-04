@@ -488,3 +488,12 @@ select department, employee, salary from
 (select d.name as department,e.name employee, e.salary salary, dense_rank() over (partition by e.departmentId order by e.salary desc) rn
 from employee e inner join department d on d.id=e.departmentid)
 where rn<=3;
+
+--3220. Odd and Even Transactions
+select transaction_date, 
+sum(case when amount%2=1 then amount else 0 end) as odd_sum,
+sum(case when amount%2=0 then amount else 0 end) as even_sum
+from transactions
+group by 1
+order by 1 asc;
+ 
