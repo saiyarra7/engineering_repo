@@ -504,3 +504,37 @@ where email ~ '^[a-zA-Z0-9_]+@[a-z]+\.com$'
 order by user_id;
 
 --3793. Find Users with High Token Usage
+-- First thoughts
+with cnts as 
+(select user_id, count(prompt) prompt_count, round(avg(tokens),2) avg_tokens
+from prompts
+group by user_id)
+select distinct cnts.user_id,cnts.prompt_count,cnts.avg_tokens
+from cnts inner join prompts p on p.user_id = cnts.user_id
+and p.tokens>cnts.avg_tokens
+and cnts.prompt_count>=3 
+order by avg_tokens desc, cnts.user_id asc;
+
+--window functions
+with temp as (select user_id, tokens, 
+count(prompt) over (partition by user_id) prompt_count, 
+round(avg(tokens) over (partition by user_id),2) avg_tokens
+from prompts)
+select distinct user_id, prompt_count, avg_tokens 
+from temp
+where prompt_count>=3
+and tokens>avg_tokens
+order by avg_tokens desc, user_id asc;
+
+
+--most optimzied
+with temp as (select user_id, count(prompt) prompt_count  , avg(tokens) avg_tokens 
+from prompts
+group by user_id having count(prompt)>2)
+select user_id, prompt_count, round(avg_tokens,2) avg_tokens
+from temp t
+where exists
+(select 1 from prompts p
+where p.user_id=t.user_id
+and p.tokens>t.avg_tokens)
+order by avg_tokens desc, user_id asc;
