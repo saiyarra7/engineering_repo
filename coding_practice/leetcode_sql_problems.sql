@@ -538,3 +538,31 @@ where exists
 where p.user_id=t.user_id
 and p.tokens>t.avg_tokens)
 order by avg_tokens desc, user_id asc;
+
+
+
+--3570. Find Books with No Available Copies
+with br as (select book_id, count(*) as current_borrowers
+from borrowing_records br 
+where return_date is null
+group by book_id)
+select lb.book_id, lb.title, lb.author, 
+lb.genre, 
+lb.publication_year, 
+current_borrowers
+from library_books lb inner join br on br.book_id=lb.book_id
+and br.current_borrowers = total_copies
+order by current_borrowers desc, title asc;
+
+--3421. Find Students Who Improved
+with scores as (select student_id, subject, score,
+row_number() over(partition by student_id,subject order by exam_date asc) first_rn, 
+row_number() over(partition by student_id,subject order by exam_date desc) latest_rn
+from scores)
+select fs.student_id, fs.subject, fs.score first_score, ls.score latest_score
+from scores fs inner join scores ls on ls.student_id=fs.student_id
+and ls.subject=fs.subject
+where ls.score>fs.score
+and ls.latest_rn =1
+and fs.first_rn=1
+order by student_id, subject asc;
