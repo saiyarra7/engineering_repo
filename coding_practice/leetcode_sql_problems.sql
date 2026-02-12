@@ -566,3 +566,10 @@ where ls.score>fs.score
 and ls.latest_rn =1
 and fs.first_rn=1
 order by student_id, subject asc;
+
+
+--3465. Find products with valid serial numbers
+select product_id, product_name, description
+from products
+where description ~ '\ySN[0-9]{4}-[0-9]{4}\y'
+order by product_id;
