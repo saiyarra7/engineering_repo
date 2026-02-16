@@ -573,3 +573,31 @@ select product_id, product_name, description
 from products
 where description ~ '\ySN[0-9]{4}-[0-9]{4}\y'
 order by product_id;
+
+--3657. Find Loyal Customers
+with customers as (select customer_id, 
+sum(case when transaction_type= 'purchase' then 1 else 0 end) as purchase_cnt,
+sum(case when transaction_type = 'refund' then 1 else 0 end) as refund_cnt,
+max(transaction_date) - min(transaction_date) as days_active 
+from customer_transactions
+group by customer_id)
+select customer_id
+from customers 
+where purchase_cnt>=3
+and days_active>=30
+and ((refund_cnt*100.00)/nullif(purchase_cnt,0)) <=20
+order by customer_id asc;
+
+--optimized
+with customers as (select customer_id, 
+count(*) filter (where transaction_type= 'purchase') as purchase_cnt,
+count(*) filter (where transaction_type= 'refund') as refund_cnt,
+max(transaction_date) - min(transaction_date) as days_active 
+from customer_transactions
+group by customer_id)
+select customer_id
+from customers 
+where purchase_cnt>=3
+and days_active>=30
+and ((refund_cnt*100.00)/nullif(purchase_cnt,0)) <=20
+order by customer_id asc;
