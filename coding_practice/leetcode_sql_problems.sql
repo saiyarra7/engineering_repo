@@ -601,3 +601,26 @@ where purchase_cnt>=3
 and days_active>=30
 and ((refund_cnt*100.00)/nullif(purchase_cnt,0)) <=20
 order by customer_id asc;
+
+
+--3497. analyze-subscription-conversion
+with paid_users as (select user_id, round(avg(activity_duration),2) as paid_avg_duration from 
+useractivity 
+where activity_type = 'paid'
+group by user_id),
+free_users as (select user_id, round(avg(activity_duration),2) trial_avg_duration 
+from useractivity
+where activity_type = 'free_trial'
+group by user_id)
+select pu.user_id,trial_avg_duration,paid_avg_duration
+from paid_users pu inner join free_users fu on fu.user_id=pu.user_id
+order by 1 asc;
+
+--optimized
+select user_id,
+round(avg(activity_duration) filter (where activity_type= 'free_trial'),2) as trial_avg_duration,
+round(avg(activity_duration) filter (where activity_type= 'paid'),2) as paid_avg_duration
+from useractivity
+group by user_id
+having avg(activity_duration) filter (where activity_type = 'paid') is not null
+order by user_id asc;
