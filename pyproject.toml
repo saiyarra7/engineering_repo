@@ -3,7 +3,9 @@ name = "engineering-monorepo"
 version = "2026.0.0"
 description = "Monorepo workspace managing data engineering and AI components"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pyarrow>=25.0.0",
+]
 
 [tool.uv.workspace]
 members = ["data_engineering_repo", "ai_engineering_repo"]

@@ -22,3 +22,6 @@ This document details the shell commands required to initialize the `data_engine
 
 # command for checking all the package list
 uv pip list
+
+# check version number
+uv pip tree | Select-String pandas
