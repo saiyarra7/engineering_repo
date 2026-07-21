@@ -11,4 +11,6 @@ dependencies = [
     "litellm==1.91.4",
     "python-dotenv>=1.2.2",
     "groq>=1.5.0",
+    "qdrant-client>=1.18.0",
+    "fastembed>=0.8.0",
 ]

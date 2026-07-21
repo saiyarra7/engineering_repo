@@ -3,7 +3,7 @@ from google import genai
 from dotenv import load_dotenv
 
 load_dotenv()
-Client automatically reads os.environ.get("GEMINI_API_KEY")
+#Client automatically reads os.environ.get("GEMINI_API_KEY")
 client = genai.Client()
 
 for model in client.models.list():
