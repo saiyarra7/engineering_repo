@@ -7,6 +7,7 @@ import sys
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = PROJECT_ROOT.parent
+SUPPORT_ROOT = PROJECT_ROOT / "db_support"
 
 if str(PROJECT_ROOT) in sys.path:
     sys.path.remove(str(PROJECT_ROOT))
@@ -16,7 +17,7 @@ from duckdb import Error as DuckDBError
 
 sys.path.insert(0, str(PROJECT_ROOT))
 
-init_db_spec = spec_from_file_location("sec_duckdb_init", PROJECT_ROOT / "duckdb" / "init_db.py")
+init_db_spec = spec_from_file_location("sec_duckdb_init", PROJECT_ROOT / "db_support" / "init_db.py")
 if init_db_spec is None or init_db_spec.loader is None:
     raise ImportError("Unable to load DuckDB initialization module")
 
