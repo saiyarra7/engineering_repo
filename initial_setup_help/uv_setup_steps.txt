@@ -1,9 +1,0 @@
-Install : powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-
-
-cd ..
-mkdir data_engineering_repo_2026
-cd mkdir data_engineering_repo_2026
-uv init
-uv sync
-uv add polars pandas pyarrow
