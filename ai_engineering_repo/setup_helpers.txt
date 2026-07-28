@@ -2,3 +2,7 @@
 uvx harlequin -v duckdb "C:\Users\Sai Yarra\Documents\tech_projects 2026\data\sp500_company_data.duckdb"
 #to launch
 uvx harlequin -a duckdb "C:\Users\Sai Yarra\Documents\tech_projects 2026\data\sp500_company_data.duckdb"
+
+#run docker desktop, later open powershell, type "docker info" to check if docker is running. later put the below command to install qdrant, vector store using docker
+docker run -d --name qdrant -p 6333:6333 -p 6334:6334 -v "C:\Users\Sai Yarra\Documents\tech_projects 2026\data:/qdrant/storage" qdrant/qdrant
+#http://localhost:6333/dashboard to check the local qdrant dashboard
