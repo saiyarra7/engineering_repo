@@ -10,3 +10,6 @@ select symbol,name,sector,price,("market cap")/1000000000 as market_cap_in_Billi
 where sector in ('Health Care Facilities','Biotechnology','Pharmaceuticals')
 order by "Market Cap" desc;
 
+
+select * from news_articles;
+
