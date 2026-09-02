@@ -45,7 +45,7 @@ if __name__ == "__main__":
     
     # DEFINE YOUR FILENAMES HERE
     filename = "sample-in.pdf" 
-    target_text = "For interview screening purposes only"
+    target_text = "For initial screening purposes"
     
     input_pdf = downloads_dir / filename
     output_pdf = downloads_dir / f"sample out.pdf"
